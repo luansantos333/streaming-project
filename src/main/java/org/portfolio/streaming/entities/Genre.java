@@ -3,9 +3,7 @@ package org.portfolio.streaming.entities;
 
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table (name = "tb_genre")
@@ -16,10 +14,10 @@ public class Genre {
     private Long id;
     private String name;
     @ManyToMany(mappedBy = "genres")
-    Set<Movie> movies = new HashSet<>();
+    List<Movie> movies = new ArrayList<>();
 
 
-    public Genre(Long id, String name, Set<Movie> movies) {
+    public Genre(Long id, String name, List<Movie> movies) {
         this.id = id;
         this.name = name;
         this.movies = movies;
@@ -50,7 +48,7 @@ public class Genre {
         this.name = name;
     }
 
-    public Set<Movie> getMovies() {
+    public List<Movie> getMovies() {
         return movies;
     }
 

@@ -20,12 +20,12 @@ public class Movie {
     private LocalDate release;
     @ManyToMany
     @JoinTable (name = "tb_movie_genre", joinColumns = @JoinColumn (name = "movie_id"), inverseJoinColumns = @JoinColumn (name = "genre_id"))
-    private Set<Genre> genres = new HashSet<>();
+    private List<Genre> genres = new ArrayList<>();
     @OneToMany (mappedBy = "movie")
     private List<Review> userRatings = new ArrayList<>();
 
 
-    public Movie(String description, String director, Set<Genre> genres, Long id, Double price, LocalDate release, String title, List<Review> userRatings) {
+    public Movie(String description, String director, List<Genre> genres, Long id, Double price, LocalDate release, String title, List<Review> userRatings) {
         this.description = description;
         this.director = director;
         this.genres = genres;
@@ -52,7 +52,7 @@ public class Movie {
         return userRatings;
     }
 
-    public Set<Genre> getGenres() {
+    public List<Genre> getGenres() {
         return genres;
     }
 
