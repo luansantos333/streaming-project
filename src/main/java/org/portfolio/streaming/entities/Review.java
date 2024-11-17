@@ -14,21 +14,40 @@ public class Review {
     @ManyToOne
     @JoinColumn (name = "user_id")
     private User userReview;
+    @ManyToOne
+    @JoinColumn (name = "movie_id")
+    private Movie movie;
     @Column(columnDefinition = "TEXT")
     private String review;
+    private Double rating;
 
-    public Review(Long id, User userReview, String review) {
+
+    public Review(Long id, Movie movie, Double rating, String review, User userReview) {
         this.id = id;
+        this.movie = movie;
+        this.rating = rating;
+        this.review = review;
         this.userReview = userReview;
-        this.review = review;
     }
 
-
-    public Review(String review, Long id) {
+    public Review(String review, Long id, Double rating) {
         this.review = review;
         this.id = id;
+        this.rating = rating;
     }
 
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
 
     public Long getId() {
         return id;

@@ -12,7 +12,6 @@ public class Role {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToMany (mappedBy = "authorities")
     private String authority;
 
     public Role(String authority, Long id) {
