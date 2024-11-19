@@ -17,5 +17,6 @@ public interface MovieGenreProjection {
 
     Long getGenreId();
 
+    String getImgUrl();
     String getGenreName();
 }
