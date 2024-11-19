@@ -16,19 +16,20 @@ public class MovieGenreDTO {
     private String description;
     private Double price;
     private LocalDate release;
+    private String imgUrl;
     private List<GenreDTO> genres = new ArrayList<>();
 
 
-    public MovieGenreDTO(String description, String director, List<GenreDTO> genres, Long id, Double price, LocalDate release, String title) {
-        this.description = description;
-        this.director = director;
-        this.genres = genres;
+    public MovieGenreDTO(Long id, String title, String director, String description, Double price, LocalDate release, String imgUrl, List<GenreDTO> genres) {
         this.id = id;
+        this.title = title;
+        this.director = director;
+        this.description = description;
         this.price = price;
         this.release = release;
-        this.title = title;
+        this.imgUrl = imgUrl;
+        this.genres = genres;
     }
-
 
     public MovieGenreDTO(Long id, String title, String director, String description, Double price, LocalDate release) {
         this.id = id;
@@ -68,6 +69,7 @@ public class MovieGenreDTO {
         description = projection.get(0).getDescription();
         price = projection.get(0).getPrice();
         release = LocalDate.ofInstant(projection.get(0).getRelease(), ZoneId.of("America/Sao_Paulo"));
+        imgUrl = projection.get(0).getImgUrl();
         for (MovieGenreProjection p : projection) {
 
             genres.add(new GenreDTO(p.getId(), p.getGenreName()));
@@ -103,5 +105,9 @@ public class MovieGenreDTO {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
     }
 }

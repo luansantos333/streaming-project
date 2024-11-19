@@ -16,6 +16,7 @@ public class Movie {
     private String director;
     private String description;
     private Double price;
+    private String imgUrl;
     @Column (columnDefinition = "TIMESTAMP")
     private LocalDate release;
     @ManyToMany
@@ -39,13 +40,14 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(Long id, String title, String director, String description, Double price, LocalDate release) {
+    public Movie(Long id, String title, String director, String description, Double price, LocalDate release, String imgUrl) {
         this.id = id;
         this.title = title;
         this.director = director;
         this.description = description;
         this.price = price;
         this.release = release;
+        this.imgUrl = imgUrl;
     }
 
     public List<Review> getUserRatings() {
@@ -104,6 +106,14 @@ public class Movie {
         this.release = release;
     }
 
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
 
     @Override
     public boolean equals(Object o) {
