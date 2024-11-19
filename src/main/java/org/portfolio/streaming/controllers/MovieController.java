@@ -1,7 +1,7 @@
 package org.portfolio.streaming.controllers;
 
 
-import org.portfolio.streaming.dtos.MovieGenreDTO;
+import org.portfolio.streaming.dtos.MovieGenreReviewDTO;
 import org.portfolio.streaming.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,11 +20,11 @@ public class MovieController {
 
 
     @GetMapping ("/{id}")
-    public ResponseEntity<MovieGenreDTO> findMovieAndGenresByMovieId (@PathVariable (name = "id") Long id) {
+    public ResponseEntity<MovieGenreReviewDTO> findMovieAndGenresByMovieId (@PathVariable (name = "id") Long id) {
 
         HttpStatus status = HttpStatus.ACCEPTED;
 
-        return ResponseEntity.status(status).body(movieService.getProductById(id));
+        return ResponseEntity.status(status).body(movieService.getMovieGenderReviewByMovieId(id));
 
     }
 
