@@ -1,5 +1,5 @@
-INSERT INTO tb_movie (title, director, description, price, release) VALUES ('Inception', 'Christopher Nolan', 'A mind-bending thriller about dreams within dreams.', 19.99, '2010-07-16');
-INSERT INTO tb_movie (title, director, description, price, release) VALUES ('The Dark Knight', 'Christopher Nolan', 'Batman battles the Joker in Gotham City.', 14.99, '2008-07-18');
+INSERT INTO tb_movie (title, director, description, price, release, img_url) VALUES ('Inception', 'Christopher Nolan', 'A mind-bending thriller about dreams within dreams.', 19.99, '2010-07-16', 'https://someimage.com');
+INSERT INTO tb_movie (title, director, description, price, release, img_url) VALUES ('The Dark Knight', 'Christopher Nolan', 'Batman battles the Joker in Gotham City.', 14.99, '2008-07-18', 'https://someimage.com');
 INSERT INTO tb_movie (title, director, description, price, release) VALUES ('Interstellar', 'Christopher Nolan', 'A team of astronauts travel through a wormhole in search of a new home for humanity.', 24.99, '2014-11-07');
 INSERT INTO tb_movie (title, director, description, price, release) VALUES ('The Matrix', 'Wachowski Brothers', 'A hacker learns the world he lives in is a simulation.', 12.99, '1999-03-31');
 INSERT INTO tb_movie (title, director, description, price, release) VALUES ('Fight Club', 'David Fincher', 'An insomniac office worker forms an underground fight club.', 10.99, '1999-10-15');
