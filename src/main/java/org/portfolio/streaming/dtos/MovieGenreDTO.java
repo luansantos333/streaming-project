@@ -1,5 +1,7 @@
 package org.portfolio.streaming.dtos;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import org.portfolio.streaming.entities.Genre;
 import org.portfolio.streaming.entities.Movie;
 import org.portfolio.streaming.repositories.projections.MovieGenreProjection;
@@ -11,11 +13,18 @@ import java.util.List;
 
 public class MovieGenreDTO {
     private Long id;
+    @Size (max = 255, message = "The maximum length for the title is 255 characters")
+    @NotBlank (message = "You can't add a movie without a tittle")
     private String title;
+    @NotBlank (message = "You can't add a movie without a director")
     private String director;
+    @Size (max = 1000, message = "The maximum number of characters the description can have is 1000 characters")
+    @NotBlank (message = "You can't add a movie without a description")
     private String description;
+    @Positive (message = "The price need to be greater than zero")
     private Double price;
     private LocalDate release;
+    @NotBlank (message = "You can't add a movie without linking a image to it")
     private String imgUrl;
     private List<GenreDTO> genres = new ArrayList<>();
 
