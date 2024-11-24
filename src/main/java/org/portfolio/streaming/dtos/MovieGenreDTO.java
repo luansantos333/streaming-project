@@ -88,6 +88,20 @@ public class MovieGenreDTO {
     }
 
 
+    public MovieGenreDTO (MovieGenreProjection projection) {
+
+        id = projection.getId();
+        title = projection.getTitle();
+        director = projection.getDirector();
+        description = projection.getDescription();
+        price = projection.getPrice();
+        release = LocalDate.ofInstant(projection.getRelease(), ZoneId.of("America/Sao_Paulo"));
+        imgUrl = projection.getImgUrl();
+        genres.add(new GenreDTO(projection.getId(), projection.getGenreName()));
+
+
+    }
+
     public List<GenreDTO> getGenres() {
         return genres;
     }
