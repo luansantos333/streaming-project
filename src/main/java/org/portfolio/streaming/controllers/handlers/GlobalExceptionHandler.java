@@ -1,8 +1,9 @@
 package org.portfolio.streaming.controllers.handlers;
 
 
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
+import org.portfolio.streaming.controllers.handlers.dtos.DefaultErrorDTO;
+import org.portfolio.streaming.services.exceptions.DatabaseException;
 import org.portfolio.streaming.services.exceptions.ResourceNotFoundException;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -17,10 +18,18 @@ import java.time.Instant;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler (ResourceNotFoundException.class)
-    public ResponseEntity<ErrorDTO> resourceNotFoundHandler (ResourceNotFoundException e, HttpServletRequest request) {
+    public ResponseEntity<DefaultErrorDTO> resourceNotFoundHandler (ResourceNotFoundException e, HttpServletRequest request) {
 
         HttpStatus status = HttpStatus.BAD_REQUEST;
-        ErrorDTO err = new ErrorDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+        DefaultErrorDTO err = new DefaultErrorDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+
+    }
+
+    @ExceptionHandler (DatabaseException.class)
+    public ResponseEntity<DefaultErrorDTO> databaseExceptionHandler (DatabaseException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        DefaultErrorDTO err = new DefaultErrorDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
 
     }

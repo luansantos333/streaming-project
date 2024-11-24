@@ -1,8 +1,8 @@
-package org.portfolio.streaming.controllers.handlers;
+package org.portfolio.streaming.controllers.handlers.dtos;
 
 import java.time.Instant;
 
-public class ErrorDTO {
+public class DefaultErrorDTO {
 
     private Instant timestamp;
     private Integer status;
@@ -10,7 +10,7 @@ public class ErrorDTO {
     private String path;
 
 
-    public ErrorDTO(Instant timestamp, Integer status, String error, String path) {
+    public DefaultErrorDTO(Instant timestamp, Integer status, String error, String path) {
         this.timestamp = timestamp;
         this.status = status;
         this.error = error;
