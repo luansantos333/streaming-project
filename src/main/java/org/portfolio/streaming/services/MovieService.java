@@ -1,16 +1,18 @@
 package org.portfolio.streaming.services;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.portfolio.streaming.dtos.GenreDTO;
-import org.portfolio.streaming.dtos.MovieGenreDTO;
-import org.portfolio.streaming.dtos.MovieGenreReviewDTO;
+import org.portfolio.streaming.dtos.*;
 import org.portfolio.streaming.entities.Genre;
 import org.portfolio.streaming.entities.Movie;
 import org.portfolio.streaming.repositories.MovieRepository;
 import org.portfolio.streaming.repositories.ReviewRepository;
 import org.portfolio.streaming.repositories.projections.MovieGenreProjection;
 import org.portfolio.streaming.repositories.projections.UserReviewProjection;
+import org.portfolio.streaming.services.exceptions.DatabaseException;
 import org.portfolio.streaming.services.exceptions.ResourceNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +45,16 @@ public class MovieService {
 
     }
 
+    @Transactional (readOnly = true)
+    public Page<MovieGenreMinDTO> findAllPaged (String name, Pageable p) {
+
+        List<Long> movieIds = movieRepository.searchMoviesById(name);
+        Page<MovieGenreProjection> movieGenreProjections = movieRepository.searchAllMoviesAndGenresByMovieIds(movieIds, p);
+
+
+        return movieGenreProjections.map(x -> new MovieGenreMinDTO(x));
+    }
+
 
     @Transactional
     public MovieGenreDTO addNewMovie (MovieGenreDTO movieGenreDTO)  {
@@ -69,6 +81,23 @@ public class MovieService {
 
         }
 
+
+    }
+
+    @Transactional
+    public void deleteMovieById (Long id) {
+
+        if (!movieRepository.existsById(id)) {
+            throw new ResourceNotFoundException("The movie you are trying to delete does not exists or was already removed");
+        }
+
+        try {
+            movieRepository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+
+            throw new DatabaseException("Couldn't delete movie because it has dependencies with other entities");
+
+        }
 
     }
 
