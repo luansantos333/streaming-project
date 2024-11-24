@@ -2,10 +2,14 @@ package org.portfolio.streaming.controllers;
 
 
 import jakarta.validation.Valid;
+import org.portfolio.streaming.dtos.MovieDTO;
 import org.portfolio.streaming.dtos.MovieGenreDTO;
+import org.portfolio.streaming.dtos.MovieGenreMinDTO;
 import org.portfolio.streaming.dtos.MovieGenreReviewDTO;
 import org.portfolio.streaming.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +23,17 @@ public class MovieController {
 
     @Autowired
     MovieService movieService;
+
+
+
+    @GetMapping
+    public ResponseEntity<Page<MovieGenreMinDTO>> findAllMovies (@RequestParam (name = "name", defaultValue = "") String name, Pageable p) {
+
+
+        Page<MovieGenreMinDTO> allPaged = movieService.findAllPaged(name, p);
+        return ResponseEntity.ok(allPaged);
+
+    }
 
 
     @GetMapping ("/{id}")
@@ -48,6 +63,15 @@ public class MovieController {
         return ResponseEntity.ok(movieGenreDTO);
 
     }
+
+    @DeleteMapping ("{id}")
+    public void deleteMovieById (@PathVariable (name = "id") Long id) {
+
+        movieService.deleteMovieById(id);
+        ResponseEntity.noContent();
+
+    }
+
 
 
 
