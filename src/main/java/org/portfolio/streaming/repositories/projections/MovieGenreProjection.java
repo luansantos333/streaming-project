@@ -14,9 +14,7 @@ public interface MovieGenreProjection {
     Instant getRelease();
 
     Double getPrice();
-
     Long getGenreId();
-
     String getImgUrl();
     String getGenreName();
 }
