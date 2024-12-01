@@ -6,6 +6,7 @@ import org.portfolio.streaming.entities.Genre;
 import org.portfolio.streaming.entities.Movie;
 import org.portfolio.streaming.repositories.MovieRepository;
 import org.portfolio.streaming.repositories.ReviewRepository;
+import org.portfolio.streaming.repositories.projections.MovieGenreMinProjection;
 import org.portfolio.streaming.repositories.projections.MovieGenreProjection;
 import org.portfolio.streaming.repositories.projections.UserReviewProjection;
 import org.portfolio.streaming.services.exceptions.DatabaseException;
@@ -49,7 +50,7 @@ public class MovieService {
     public Page<MovieGenreMinDTO> findAllPaged (String name, Pageable p) {
 
         List<Long> movieIds = movieRepository.searchMoviesById(name);
-        Page<MovieGenreProjection> movieGenreProjections = movieRepository.searchAllMoviesAndGenresByMovieIds(movieIds, p);
+        Page<MovieGenreMinProjection> movieGenreProjections = movieRepository.searchAllMoviesAndGenresByMovieIds(movieIds, p);
 
 
         return movieGenreProjections.map(x -> new MovieGenreMinDTO(x));

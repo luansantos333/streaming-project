@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import org.portfolio.streaming.entities.Genre;
 import org.portfolio.streaming.entities.Movie;
+import org.portfolio.streaming.repositories.projections.MovieGenreMinProjection;
 import org.portfolio.streaming.repositories.projections.MovieGenreProjection;
 
 import java.time.LocalDate;
@@ -25,10 +26,10 @@ public class MovieGenreMinDTO {
     private LocalDate release;
     @NotBlank (message = "You can't add a movie without linking a image to it")
     private String imgUrl;
-    private List<GenreDTO> genres = new ArrayList<>();
+    private GenreMinDTO genres;
 
 
-    public MovieGenreMinDTO(Long id, String title, String director, Double price, LocalDate release, String imgUrl, List<GenreDTO> genres) {
+    public MovieGenreMinDTO(Long id, String title, String director, Double price, LocalDate release, String imgUrl, GenreMinDTO genres) {
         this.id = id;
         this.title = title;
         this.director = director;
@@ -50,40 +51,9 @@ public class MovieGenreMinDTO {
     public MovieGenreMinDTO() {
     }
 
-    public MovieGenreMinDTO(Movie entity) {
-        id = entity.getId();
-        title = entity.getTitle();
-        director = entity.getDirector();
-        price = entity.getPrice();
-        release = entity.getRelease();
-        for (Genre g : entity.getGenres()) {
-
-            genres.add(new GenreDTO(g));
-
-        }
-
-    }
 
 
-    public MovieGenreMinDTO (List<MovieGenreProjection> projection) {
-
-
-        id = projection.get(0).getId();
-        title = projection.get(0).getTitle();
-        director = projection.get(0).getDirector();
-        price = projection.get(0).getPrice();
-        release = LocalDate.ofInstant(projection.get(0).getRelease(), ZoneId.of("America/Sao_Paulo"));
-        imgUrl = projection.get(0).getImgUrl();
-        for (MovieGenreProjection p : projection) {
-
-            genres.add(new GenreDTO(p.getId(), p.getGenreName()));
-
-        }
-
-    }
-
-
-    public MovieGenreMinDTO (MovieGenreProjection projection) {
+    public MovieGenreMinDTO (MovieGenreMinProjection projection) {
 
         id = projection.getId();
         title = projection.getTitle();
@@ -91,12 +61,13 @@ public class MovieGenreMinDTO {
         price = projection.getPrice();
         release = LocalDate.ofInstant(projection.getRelease(), ZoneId.of("America/Sao_Paulo"));
         imgUrl = projection.getImgUrl();
-        genres.add(new GenreDTO(projection.getId(), projection.getGenreName()));
+        genres = new GenreMinDTO(projection.getGenres());
 
 
     }
 
-    public List<GenreDTO> getGenres() {
+
+    public GenreMinDTO getGenres() {
         return genres;
     }
 
