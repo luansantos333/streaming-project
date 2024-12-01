@@ -1,37 +1,34 @@
 package org.portfolio.streaming.dtos;
 
 import org.portfolio.streaming.entities.Review;
-import org.portfolio.streaming.entities.User;
 import org.portfolio.streaming.repositories.projections.UserReviewProjection;
 
-public class UserReviewDTO {
+public class UserReviewMinDTO {
 
     private String username;
     private String review;
     private Double rating;
-    private Long userId;
 
 
-    public UserReviewDTO(String username, String review, Double rating, Long userId) {
+    public UserReviewMinDTO(String username, String review, Double rating) {
         this.username = username;
         this.review = review;
         this.rating = rating;
-        this.userId = userId;
     }
 
-    public UserReviewDTO(Review entity, User userEntity) {
-        review = entity.getReview();
-        rating = entity.getRating();
-        username = userEntity.getEmail();
-        userId = userEntity.getId();
 
-    }
-
-    public UserReviewDTO(UserReviewProjection projection) {
+    public UserReviewMinDTO(UserReviewProjection projection) {
 
         username = projection.getUsername();
         review = projection.getReview();
         rating = projection.getRating();
+    }
+
+
+    public UserReviewMinDTO(Review entity) {
+
+
+
     }
 
     public String getUsername() {
@@ -44,9 +41,5 @@ public class UserReviewDTO {
 
     public Double getRating() {
         return rating;
-    }
-
-    public Long getUserId() {
-        return userId;
     }
 }

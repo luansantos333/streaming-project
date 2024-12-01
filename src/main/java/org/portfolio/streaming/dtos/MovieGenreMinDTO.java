@@ -3,15 +3,10 @@ package org.portfolio.streaming.dtos;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
-import org.portfolio.streaming.entities.Genre;
-import org.portfolio.streaming.entities.Movie;
 import org.portfolio.streaming.repositories.projections.MovieGenreMinProjection;
-import org.portfolio.streaming.repositories.projections.MovieGenreProjection;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MovieGenreMinDTO {
 

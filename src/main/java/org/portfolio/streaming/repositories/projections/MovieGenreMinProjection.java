@@ -1,7 +1,6 @@
 package org.portfolio.streaming.repositories.projections;
 
 import java.time.Instant;
-import java.util.List;
 
 public interface MovieGenreMinProjection {
 

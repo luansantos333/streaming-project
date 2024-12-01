@@ -30,6 +30,10 @@ public class Review {
         this.userReview = userReview;
     }
 
+
+    public Review() {
+    }
+
     public Review(String review, Long id, Double rating) {
         this.review = review;
         this.id = id;

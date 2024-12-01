@@ -1,7 +1,10 @@
 package org.portfolio.streaming.services;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.portfolio.streaming.dtos.*;
+import org.portfolio.streaming.dtos.GenreDTO;
+import org.portfolio.streaming.dtos.MovieGenreDTO;
+import org.portfolio.streaming.dtos.MovieGenreMinDTO;
+import org.portfolio.streaming.dtos.MovieGenreReviewDTO;
 import org.portfolio.streaming.entities.Genre;
 import org.portfolio.streaming.entities.Movie;
 import org.portfolio.streaming.repositories.MovieRepository;
@@ -49,8 +52,19 @@ public class MovieService {
     @Transactional (readOnly = true)
     public Page<MovieGenreMinDTO> findAllPaged (String name, Pageable p) {
 
-        List<Long> movieIds = movieRepository.searchMoviesById(name);
-        Page<MovieGenreMinProjection> movieGenreProjections = movieRepository.searchAllMoviesAndGenresByMovieIds(movieIds, p);
+        List<Long> movieIds = movieRepository.searchMovieIdsByTitle(name);
+
+        Page<MovieGenreMinProjection> movieGenreProjections;
+
+        if (movieIds.isEmpty()) {
+
+            movieGenreProjections = movieRepository.searchAllMoviesAndGenres(p);
+
+            return movieGenreProjections.map(x -> new MovieGenreMinDTO(x));
+
+        }
+
+        movieGenreProjections = movieRepository.searchAllMoviesAndGenresByMovieIds(movieIds, p);
 
 
         return movieGenreProjections.map(x -> new MovieGenreMinDTO(x));

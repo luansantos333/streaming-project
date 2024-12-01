@@ -1,7 +1,8 @@
 package org.portfolio.streaming.dtos;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import org.portfolio.streaming.entities.Genre;
 import org.portfolio.streaming.entities.Movie;
 import org.portfolio.streaming.repositories.projections.MovieGenreProjection;

@@ -2,7 +2,6 @@ package org.portfolio.streaming.controllers;
 
 
 import jakarta.validation.Valid;
-import org.portfolio.streaming.dtos.MovieDTO;
 import org.portfolio.streaming.dtos.MovieGenreDTO;
 import org.portfolio.streaming.dtos.MovieGenreMinDTO;
 import org.portfolio.streaming.dtos.MovieGenreReviewDTO;
@@ -27,7 +26,7 @@ public class MovieController {
 
 
     @GetMapping
-    public ResponseEntity<Page<MovieGenreMinDTO>> findAllMovies (@RequestParam (name = "name", defaultValue = "") String name, Pageable p) {
+    public ResponseEntity<Page<MovieGenreMinDTO>> findAllMovies (@RequestParam (name = "name", defaultValue = "a") String name, Pageable p) {
 
 
         Page<MovieGenreMinDTO> allPaged = movieService.findAllPaged(name, p);
