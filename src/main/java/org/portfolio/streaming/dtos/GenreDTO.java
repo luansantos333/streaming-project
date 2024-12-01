@@ -14,6 +14,10 @@ public class GenreDTO {
     }
 
 
+    public GenreDTO(String name) {
+        this.name = name;
+    }
+
     public GenreDTO(Genre genre) {
 
         id = genre.getId();
