@@ -1,15 +1,14 @@
 package org.portfolio.streaming.entities;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table (name = "tb_user")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -36,6 +35,7 @@ public class User {
     public User() {
     }
 
+
     public User(Long id, String name, String email, String password, List<Review> reviews) {
         this.id = id;
         this.name = name;
@@ -45,12 +45,43 @@ public class User {
     }
 
 
+    @Override
+    public String getUsername() {
+        return getEmail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
+    }
+
     public List<Review> getReviews() {
         return reviews;
     }
 
-    public Set<Role> getAuthorities() {
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
+    }
+
+
+    public void addRole (Role role) {
+        authorities.add(role);
     }
 
     public Long getId() {

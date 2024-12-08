@@ -34,6 +34,8 @@ public class UserReviewDTO {
         rating = projection.getRating();
     }
 
+
+
     public String getUsername() {
         return username;
     }

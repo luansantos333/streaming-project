@@ -20,7 +20,7 @@ public class UserDTO {
 
         id = entity.getId();
         name = entity.getName();
-        email = entity.getName();
+        email = entity.getUsername();
         password = entity.getPassword();
 
 

@@ -1,6 +1,5 @@
 package org.portfolio.streaming.dtos;
 
-import org.portfolio.streaming.entities.Review;
 import org.portfolio.streaming.repositories.projections.UserReviewProjection;
 
 public class UserReviewMinDTO {
@@ -24,12 +23,6 @@ public class UserReviewMinDTO {
         rating = projection.getRating();
     }
 
-
-    public UserReviewMinDTO(Review entity) {
-
-
-
-    }
 
     public String getUsername() {
         return username;

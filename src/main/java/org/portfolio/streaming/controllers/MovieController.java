@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -23,8 +24,6 @@ public class MovieController {
     @Autowired
     MovieService movieService;
 
-
-
     @GetMapping
     public ResponseEntity<Page<MovieGenreMinDTO>> findAllMovies (@RequestParam (name = "name", defaultValue = "a") String name, Pageable p) {
 
@@ -33,6 +32,7 @@ public class MovieController {
         return ResponseEntity.ok(allPaged);
 
     }
+
 
 
     @GetMapping ("/{id}")
@@ -44,7 +44,9 @@ public class MovieController {
 
     }
 
+
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<MovieGenreDTO> addNewMovie (@Valid @RequestBody  MovieGenreDTO dto) {
 
         MovieGenreDTO movieGenreDTO = movieService.addNewMovie(dto);
@@ -55,6 +57,8 @@ public class MovieController {
 
     }
 
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping ("/{id}")
     public ResponseEntity<MovieGenreDTO> updateMovieInfo (@Valid @RequestBody MovieGenreDTO dto, @PathVariable (name = "id") Long id) {
 
@@ -63,11 +67,11 @@ public class MovieController {
 
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping ("{id}")
     public void deleteMovieById (@PathVariable (name = "id") Long id) {
 
         movieService.deleteMovieById(id);
-        ResponseEntity.noContent();
 
     }
 
