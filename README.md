@@ -31,9 +31,9 @@ Funcionalidades Principais
 ---
 ### Tecnologias utilizadas
 
-> Java 21
-> Spring Boot
-> Spring Security para autenticação
-> JPA/Hibernate para persistência de dados
-> RESTful API
-> PostgresSQL
+> - Java 21
+> - Spring Boot
+> - Spring Security para autenticação
+> - JPA/Hibernate para persistência de dados
+> - RESTful API
+> - PostgresSQL
