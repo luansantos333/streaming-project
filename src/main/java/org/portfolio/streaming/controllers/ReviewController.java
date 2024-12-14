@@ -1,6 +1,5 @@
 package org.portfolio.streaming.controllers;
 
-import org.portfolio.streaming.dtos.UserReviewDTO;
 import org.portfolio.streaming.dtos.UserReviewMinDTO;
 import org.portfolio.streaming.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +21,9 @@ public class ReviewController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole ('ROLE_ADMIN','ROLE_USER')")
-    public ResponseEntity<UserReviewDTO> newReview (@RequestBody UserReviewDTO dto) {
+    public ResponseEntity<UserReviewMinDTO> newReview (@RequestBody UserReviewMinDTO dto) {
 
-        UserReviewDTO userReviewDTO = service.newReview(dto);
+        UserReviewMinDTO userReviewDTO = service.newReview(dto);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getUserId()).toUri();
 
@@ -50,10 +49,12 @@ public class ReviewController {
 
     }
 
+
+
     @PreAuthorize("hasRole ('ROLE_USER')")
     @PutMapping ("/{id}")
-    public ResponseEntity<UserReviewDTO> updateReviewById (@PathVariable Long id, @RequestBody UserReviewDTO dto) {
-        UserReviewDTO userReviewDTO = service.updateReview(dto, id);
+    public ResponseEntity<UserReviewMinDTO> updateReviewById (@PathVariable Long id, @RequestBody UserReviewMinDTO dto) {
+        UserReviewMinDTO userReviewDTO = service.updateReview(dto, id);
         return ResponseEntity.ok(userReviewDTO);
 
     }
