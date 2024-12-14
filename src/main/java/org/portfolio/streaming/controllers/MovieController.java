@@ -26,8 +26,6 @@ public class MovieController {
 
     @GetMapping
     public ResponseEntity<Page<MovieGenreMinDTO>> findAllMovies (@RequestParam (name = "name", defaultValue = "a") String name, Pageable p) {
-
-
         Page<MovieGenreMinDTO> allPaged = movieService.findAllPaged(name, p);
         return ResponseEntity.ok(allPaged);
 

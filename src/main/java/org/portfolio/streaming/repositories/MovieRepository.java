@@ -18,7 +18,7 @@ public interface MovieRepository extends JpaRepository <Movie, Long> {
     )
     List<MovieGenreProjection> searchMovieAndCategoriesById(Long id);
 
-    @Query ("SELECT movie.id FROM Movie movie WHERE UPPER(movie.title) LIKE UPPER (CONCAT('%', :name, '%'))")
+    @Query ("SELECT movie.id FROM org.portfolio.streaming.entities.Movie movie WHERE UPPER(movie.title) LIKE UPPER (CONCAT('%', :name, '%'))")
     List<Long> searchMovieIdsByTitle(String name);
 
 
