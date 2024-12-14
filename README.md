@@ -21,10 +21,19 @@ Funcionalidades Principais
     - Acesso à busca básica
 - ##### Usuário padrão
     - *Acesso completo ao catálogo*
-    - *Reprodução de vídeos*
+    - *Possibilidade de adicionar, atualizar ou remover avaliação*
     - *Criação de listas de favoritos*
     - *Busca avançada*
 - ##### Administrador
     - *Gerenciamento de usuários*
     - *Adição e remoção de conteúdo*
     - *Acesso a estatísticas e relatórios*
+---
+### Tecnologias utilizadas
+
+> Java 21
+> Spring Boot
+> Spring Security para autenticação
+> JPA/Hibernate para persistência de dados
+> RESTful API
+> PostgresSQL
