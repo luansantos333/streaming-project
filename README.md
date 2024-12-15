@@ -31,13 +31,15 @@ Funcionalidades Principais
   
 ---
 
-# Testando o código
-### Tecnologias utilizadas
+###  Testando o código
+
 > `git clone https://github.com/luansantos333/streaming-project.git`
 
 > baixe a collection para validar os endpoints [aqui](endpoints/movieflix.json)
 
 ---
+### Tecnologias utilizadas
+
 > - Java 21
 > - Spring Boot
 > - Spring Security para autenticação
