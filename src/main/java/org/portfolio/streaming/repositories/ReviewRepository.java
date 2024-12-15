@@ -16,7 +16,7 @@ public interface ReviewRepository extends JpaRepository <Review, Long> {
             + "tb_user AS user_sys ON review.user_id = user_sys.id INNER JOIN tb_movie AS movie ON review.movie_id = movie.id WHERE movie.id = :movieId")
          List<UserReviewProjection> searchReviewsByMovieId(@Param("movieId") Long movieId);
 
-    @Query(nativeQuery = true, value = "SELECT review.review, review.rating, usuario.email AS username FROM tb_review AS review INNER JOIN tb_user AS usuario ON review.user_id = usuario.id WHERE review.id = :id")
+    @Query(nativeQuery = true, value = "SELECT review.review, review.rating, usuario.email AS username, usuario.id AS userId FROM tb_review AS review INNER JOIN tb_user AS usuario ON review.user_id = usuario.id WHERE review.id = :id")
      Optional<UserReviewProjection> searchReviewAndUserByReviewId(Long id);
 
 

@@ -15,6 +15,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class ReviewService {
     private final ReviewRepository reviewRepository;
@@ -59,13 +61,22 @@ public class ReviewService {
         if (!reviewRepository.existsById(id)) {
             throw new ResourceNotFoundException("No review found with this id");
         }
+
+        if (!validateIfUserIsOwnerFromCommentOrAdmin(id)) {
+
+            throw new ForbiddenException("The review does not belong to your user. You can't remove it");
+
+        }
+
         try {
+
             reviewRepository.deleteById(id);
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Couldn't delete movie because it has dependencies with other entities");
         }
 
     }
+
 
 
     @Transactional
@@ -95,6 +106,22 @@ public class ReviewService {
         reviewEntity.setRating(dto.getRating());
         movie = movieRepository.findById(dto.getMovie()).orElseThrow(() -> new ResourceNotFoundException("No movie found with this id"));
         reviewEntity.setMovie(movie);
+
+    }
+
+    private boolean validateIfUserIsOwnerFromCommentOrAdmin (Long id) {
+
+        UserReviewProjection userReviewProjection = reviewRepository.searchReviewAndUserByReviewId(id).orElseThrow(() -> new ResourceNotFoundException("No review found with this id"));
+        User authenticated = userService.authenticated();
+
+
+        if (authenticated.getId() != userReviewProjection.getUserId() && authenticated.getAuthorities().stream().noneMatch(x -> x.getAuthority().equals("ROLE_ADMIN"))) {
+
+            return false;
+
+        }
+
+        return true;
 
     }
 
