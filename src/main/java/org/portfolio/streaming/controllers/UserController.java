@@ -3,9 +3,8 @@ package org.portfolio.streaming.controllers;
 import org.portfolio.streaming.dtos.UserMinDTO;
 import org.portfolio.streaming.services.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping ("/user")
@@ -37,6 +36,15 @@ public class UserController {
     }
     */
 
+    @DeleteMapping ("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    public ResponseEntity<Void> deleteUser (@PathVariable (name = "id") Long id) {
+
+        service.deleteUser(id);
+
+        return ResponseEntity.noContent().build();
+
+    }
 
 
 
