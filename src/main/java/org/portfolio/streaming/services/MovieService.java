@@ -50,9 +50,10 @@ public class MovieService {
     }
 
     @Transactional (readOnly = true)
-    public Page<MovieGenreMinDTO> findAllPaged (String name, Pageable p) {
+    public Page<MovieGenreMinDTO> findAllPaged (String name, Pageable p, List<Long> genreIds) {
 
-        List<Long> movieIds = movieRepository.searchMovieIdsByTitle(name);
+
+        List<Long> movieIds = movieRepository.searchMovieIdsByTitle(name, genreIds);
 
         Page<MovieGenreMinProjection> movieGenreProjections;
 

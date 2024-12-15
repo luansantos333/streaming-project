@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping ("/movie")
@@ -25,8 +26,9 @@ public class MovieController {
     MovieService movieService;
 
     @GetMapping
-    public ResponseEntity<Page<MovieGenreMinDTO>> findAllMovies (@RequestParam (name = "name", defaultValue = "a") String name, Pageable p) {
-        Page<MovieGenreMinDTO> allPaged = movieService.findAllPaged(name, p);
+    public ResponseEntity<Page<MovieGenreMinDTO>> findAllMovies (@RequestParam (name = "name") String name, @RequestParam (name = "genres")
+    List<Long> genres, Pageable p) {
+        Page<MovieGenreMinDTO> allPaged = movieService.findAllPaged(name, p, genres);
         return ResponseEntity.ok(allPaged);
 
     }
