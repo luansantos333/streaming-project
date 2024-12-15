@@ -28,9 +28,16 @@ Funcionalidades Principais
     - *Gerenciamento de usuários*
     - *Adição e remoção de conteúdo*
     - *Acesso a estatísticas e relatórios*
+  
 ---
-### Tecnologias utilizadas
 
+# Testando o código
+### Tecnologias utilizadas
+> `git clone https://github.com/luansantos333/streaming-project.git`
+
+> baixe a collection para validar os endpoints [aqui](endpoints/movieflix.json)
+
+---
 > - Java 21
 > - Spring Boot
 > - Spring Security para autenticação
