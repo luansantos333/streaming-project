@@ -41,6 +41,15 @@ public class UserController {
 
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping ("/{id}")
+    public ResponseEntity<UserMinDTO> elevateUserPrivileges (@PathVariable (name = "id") Long id) {
+
+        UserMinDTO user = service.grantAdminPrivileges(id);
+
+        return ResponseEntity.ok(user);
+    }
+
 
     @DeleteMapping ("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")

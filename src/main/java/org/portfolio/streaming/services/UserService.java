@@ -14,6 +14,7 @@ import org.portfolio.streaming.services.exceptions.ForbiddenException;
 import org.portfolio.streaming.services.exceptions.ResourceNotFoundException;
 import org.portfolio.streaming.utils.UserUtil;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -65,6 +66,21 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
+    public UserMinDTO grantAdminPrivileges (Long id) {
+
+        if (!userRepo.existsById(id)) {
+
+            throw new ResourceNotFoundException("No user found with this id");
+
+        }
+
+        User user = userRepo.findById(id).get();
+        user.addRole(new Role("ROLE_ADMIN", 2L));
+        return new UserMinDTO(user);
+
+    }
+
+    @Transactional
     public void deleteUser(Long id) {
 
         if (!userRepo.existsById(id)) {
@@ -94,6 +110,7 @@ public class UserService implements UserDetailsService {
 
 
     }
+
 
 
     @Override
