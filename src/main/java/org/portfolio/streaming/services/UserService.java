@@ -1,11 +1,14 @@
 package org.portfolio.streaming.services;
 
+import org.portfolio.streaming.configs.AuthorizationServerConfig;
+import org.portfolio.streaming.configs.customgrant.PasswordEncoderConfig;
 import org.portfolio.streaming.dtos.UserDTO;
 import org.portfolio.streaming.dtos.UserMinDTO;
 import org.portfolio.streaming.entities.Role;
 import org.portfolio.streaming.entities.User;
 import org.portfolio.streaming.repositories.UserRepository;
 import org.portfolio.streaming.repositories.projections.UserDetailsProjection;
+import org.portfolio.streaming.services.exceptions.DataExistentException;
 import org.portfolio.streaming.services.exceptions.DatabaseException;
 import org.portfolio.streaming.services.exceptions.ForbiddenException;
 import org.portfolio.streaming.services.exceptions.ResourceNotFoundException;
@@ -17,18 +20,22 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepo;
     private final UserUtil userUtil;
+    private final PasswordEncoderConfig passwordEncoder;
 
 
-    public UserService(UserRepository userRepo, UserUtil userUtil) {
+    public UserService(UserRepository userRepo, UserUtil userUtil, PasswordEncoderConfig passwordEncoder) {
         this.userRepo = userRepo;
         this.userUtil = userUtil;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public UserDTO findByEmail(String username) {
@@ -38,16 +45,24 @@ public class UserService implements UserDetailsService {
     }
 
 
-    /*
     @Transactional
-    public UserMinDTO addNewUser (UserDTO dto) {
-
-        repository.save()
+    public UserMinDTO addNewUser(UserDTO dto) {
 
 
+        if (userRepo.findByEmail(dto.getEmail()).isPresent()) {
+            throw new DataExistentException("A user with this email already exists in our system");
+        }
 
+        User user = new User();
+        user.setName(dto.getName());
+        user.setPassword(passwordEncoder.encoder().encode(dto.getPassword()));
+        user.setEmail(dto.getEmail());
+        user.addRole(new Role("ROLE_USER", 1L));
+
+        User savedUser = userRepo.save(user);
+
+        return new UserMinDTO(savedUser);
     }
-    */
 
     @Transactional
     public void deleteUser(Long id) {

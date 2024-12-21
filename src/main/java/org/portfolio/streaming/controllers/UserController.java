@@ -1,10 +1,14 @@
 package org.portfolio.streaming.controllers;
 
+import org.portfolio.streaming.dtos.UserDTO;
 import org.portfolio.streaming.dtos.UserMinDTO;
 import org.portfolio.streaming.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping ("/user")
@@ -27,14 +31,16 @@ public class UserController {
 
     }
 
-    /*
     @PostMapping
-    public ResponseEntity<UserMinDTO> addNewUser () {
+    public ResponseEntity<UserMinDTO> addNewUser (@RequestBody UserDTO dto) {
 
+        UserMinDTO userMinDTO = service.addNewUser(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("{id}").buildAndExpand(dto.getId()).toUri();
 
+        return ResponseEntity.created(uri).body(userMinDTO);
 
     }
-    */
+
 
     @DeleteMapping ("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
