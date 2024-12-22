@@ -126,6 +126,7 @@ INSERT INTO tb_user_role (user_id, role_id) VALUES (1,1);
 INSERT INTO tb_user_role (user_id, role_id) VALUES (1,2);
 INSERT INTO tb_user_role (user_id, role_id) VALUES (2,2);
 INSERT INTO tb_user_role (user_id, role_id) VALUES (3,2);
+INSERT INTO tb_user_role (user_id, role_id) VALUES (4,2);
 
 
 INSERT INTO tb_review (user_id, movie_id, review, rating) VALUES (2, 1, 'Bom filme!', 8.9);

@@ -111,6 +111,34 @@ public class UserService implements UserDetailsService {
 
     }
 
+    @Transactional
+    public UserMinDTO updateUser (Long id, UserDTO dto) {
+
+        if (!userRepo.existsById(id)) {
+
+            throw new ResourceNotFoundException("No user found with this id");
+
+        }
+
+        User user = userRepo.getReferenceById(id);
+
+        boolean isOwnerOrAdmin = userIsOwnerOrAdmin(user);
+
+        if (!isOwnerOrAdmin) {
+
+            throw new ForbiddenException("You can't update data from another user");
+
+        }
+
+        user.setEmail(dto.getEmail());
+        user.setPassword(passwordEncoder.encoder().encode(dto.getPassword()));
+        user.setName(dto.getName());
+
+        User save = userRepo.save(user);
+
+        return new UserMinDTO(save);
+
+    }
 
 
     @Override
