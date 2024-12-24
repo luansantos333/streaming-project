@@ -1,11 +1,13 @@
 package org.portfolio.streaming.services;
 
+import org.portfolio.streaming.configs.customgrant.PasswordEncoderConfig;
 import org.portfolio.streaming.entities.PasswordReset;
 import org.portfolio.streaming.entities.User;
 import org.portfolio.streaming.repositories.PasswordResetTokenRepository;
 import org.portfolio.streaming.repositories.UserRepository;
 import org.portfolio.streaming.services.exceptions.ResourceNotFoundException;
 import org.portfolio.streaming.services.exceptions.TokenExpiredException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,8 @@ public class PasswordResetService {
     private final UserRepository userRepo;
     @Value("${spring.mail.token.expiration}")
     private Long tokenDuration;
+    @Autowired
+    PasswordEncoderConfig encoderConfig;
 
     public PasswordResetService(PasswordResetTokenRepository passwordResetTokenRepository, MailService mailService, UserRepository userRepo) {
         this.passwordResetTokenRepository = passwordResetTokenRepository;
@@ -53,7 +57,7 @@ public class PasswordResetService {
         if (LocalDateTime.now().isAfter(passwordResetTokenRepository.findByToken(token).getExpiryDate())) {
             throw new TokenExpiredException("The token you provide is expired");
         }
-        user.setPassword(password);
+        user.setPassword(encoderConfig.encoder().encode(password));
         userRepo.save(user);
     }
 }

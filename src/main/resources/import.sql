@@ -113,7 +113,7 @@ INSERT INTO tb_movie_genre (movie_id, genre_id) VALUES (25, 2);
 
 
 INSERT INTO tb_user (name, email, password) VALUES ('Admin', 'admin@gmail.com','$2a$10$N7SkKCa3r17ga.i.dF9iy.BFUBL2n3b6Z1CWSZWi/qy7ABq/E6VpO');
-INSERT INTO tb_user (name, email, password) VALUES ('User', 'luangomespctu@gmail.com','$2a$10$N7SkKCa3r17ga.i.dF9iy.BFUBL2n3b6Z1CWSZWi/qy7ABq/E6VpO');
+INSERT INTO tb_user (name, email, password) VALUES ('User', 'user@gmail.com','$2a$10$N7SkKCa3r17ga.i.dF9iy.BFUBL2n3b6Z1CWSZWi/qy7ABq/E6VpO');
 INSERT INTO tb_user (name, email, password) VALUES ('User2', 'user2@gmail.com','$2a$10$N7SkKCa3r17ga.i.dF9iy.BFUBL2n3b6Z1CWSZWi/qy7ABq/E6VpO');
 INSERT INTO tb_user (name, email, password) VALUES ('User3', 'user3@gmail.com','$2a$10$N7SkKCa3r17ga.i.dF9iy.BFUBL2n3b6Z1CWSZWi/qy7ABq/E6VpO');
 
