@@ -1,6 +1,5 @@
 package org.portfolio.streaming.services;
 
-import org.portfolio.streaming.configs.AuthorizationServerConfig;
 import org.portfolio.streaming.configs.customgrant.PasswordEncoderConfig;
 import org.portfolio.streaming.dtos.UserDTO;
 import org.portfolio.streaming.dtos.UserMinDTO;
@@ -14,16 +13,13 @@ import org.portfolio.streaming.services.exceptions.ForbiddenException;
 import org.portfolio.streaming.services.exceptions.ResourceNotFoundException;
 import org.portfolio.streaming.utils.UserUtil;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -31,6 +27,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepo;
     private final UserUtil userUtil;
     private final PasswordEncoderConfig passwordEncoder;
+
 
 
     public UserService(UserRepository userRepo, UserUtil userUtil, PasswordEncoderConfig passwordEncoder) {

@@ -23,6 +23,7 @@ public class User implements UserDetails {
     @JoinTable(name = "tb_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> authorities = new HashSet<>();
 
+
     public User(Long id, String name, String email, String password, List<Review> reviews, Set<Role> authorities) {
         this.id = id;
         this.name = name;
