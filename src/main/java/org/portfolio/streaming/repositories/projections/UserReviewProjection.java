@@ -10,4 +10,6 @@ public interface UserReviewProjection {
 
     Long getUserId();
 
+    Long getMovie();
+
 }

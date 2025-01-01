@@ -1,5 +1,7 @@
 package org.portfolio.streaming.dtos;
 
+import org.portfolio.streaming.entities.Movie;
+import org.portfolio.streaming.entities.Review;
 import org.portfolio.streaming.repositories.projections.MovieGenreProjection;
 import org.portfolio.streaming.repositories.projections.UserReviewProjection;
 
@@ -60,6 +62,25 @@ public class MovieGenreReviewDTO {
     }
 
 
+    public MovieGenreReviewDTO(Movie movie, List<Review> reviews) {
+
+        id = movie.getId();
+        title = movie.getTitle();
+        director = movie.getDirector();
+        price = movie.getPrice();
+        release = movie.getRelease();
+        imgUrl = movie.getImgUrl();
+
+        for (Review review : reviews) {
+
+
+            getReviews().add(new UserReviewDTO(review, review.getUserReview()));
+
+
+        }
+
+
+    }
 
     public Long getId() {
         return id;

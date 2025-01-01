@@ -48,7 +48,7 @@ public class ReviewService {
     @Transactional(readOnly = true)
     public UserReviewMinDTO findByReviewId(Long id) {
 
-        UserReviewProjection userReviewProjection = reviewRepository.searchReviewAndUserByReviewId(id).orElseThrow(() -> new ResourceNotFoundException("No review found with this id"));
+        UserReviewProjection userReviewProjection = reviewRepository.searchReviewMovieAndUserByReviewId(id).orElseThrow(() -> new ResourceNotFoundException("No review found with this id"));
 
         return new UserReviewMinDTO(userReviewProjection);
     }
@@ -109,7 +109,7 @@ public class ReviewService {
 
     private boolean validateIfUserIsOwnerFromCommentOrAdmin (Long id) {
 
-        UserReviewProjection userReviewProjection = reviewRepository.searchReviewAndUserByReviewId(id).orElseThrow(() -> new ResourceNotFoundException("No review found with this id"));
+        UserReviewProjection userReviewProjection = reviewRepository.searchReviewMovieAndUserByReviewId(id).orElseThrow(() -> new ResourceNotFoundException("No review found with this id"));
         User authenticated = userService.authenticated();
 
 

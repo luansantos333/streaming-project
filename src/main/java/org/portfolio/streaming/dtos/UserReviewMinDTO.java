@@ -32,11 +32,22 @@ public class UserReviewMinDTO {
         this.movie = movie;
     }
 
+
+    public UserReviewMinDTO(String username, Long userId, String review, Double rating) {
+        this.username = username;
+        this.userId = userId;
+        this.review = review;
+        this.rating = rating;
+    }
+
     public UserReviewMinDTO(UserReviewProjection projection) {
 
         username = projection.getUsername();
         review = projection.getReview();
         rating = projection.getRating();
+        userId = projection.getUserId();
+        movie = projection.getMovie();
+
     }
 
     public UserReviewMinDTO (Review entity, User userEntity, Long movie) {
