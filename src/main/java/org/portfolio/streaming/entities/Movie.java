@@ -1,6 +1,7 @@
 package org.portfolio.streaming.entities;
 
 import jakarta.persistence.*;
+import org.portfolio.streaming.dtos.MovieDTO;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class Movie {
     private Long id;
     private String title;
     private String director;
+    @Column (columnDefinition = "TEXT")
     private String description;
     private Double price;
     private String imgUrl;
@@ -42,15 +44,34 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(Long id, String title, String director, String description, Double price, LocalDate release, String imgUrl) {
+    public Movie(Long id, String title, String director, Double price, LocalDate release, String imgUrl) {
         this.id = id;
         this.title = title;
         this.director = director;
-        this.description = description;
         this.price = price;
         this.release = release;
         this.imgUrl = imgUrl;
     }
+
+    public Movie (MovieDTO dto, List<Genre> genres) {
+
+
+        id = dto.getId();
+        title = dto.getTitle();
+        director = dto.getDirector();
+        price = dto.getPrice();
+        release = dto.getRelease();
+        imgUrl = dto.getImgUrl();
+
+        for (Genre genre : genres) {
+
+            getGenres().add(genre);
+
+        }
+
+
+    }
+
 
     public List<Review> getUserRatings() {
         return userRatings;
