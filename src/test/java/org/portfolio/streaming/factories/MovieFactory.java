@@ -4,7 +4,10 @@ import org.portfolio.streaming.dtos.MovieDTO;
 import org.portfolio.streaming.dtos.MovieGenreDTO;
 import org.portfolio.streaming.dtos.MovieGenreReviewDTO;
 import org.portfolio.streaming.entities.*;
+import org.portfolio.streaming.repositories.projections.MovieGenreMinProjection;
+import org.portfolio.streaming.repositories.projections.MovieGenreProjection;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +77,117 @@ public class MovieFactory {
 
     }
 
+
+    public static MovieGenreimpl defaultMovieGenreProjection() {
+
+        return new MovieGenreimpl();
+
+    }
+
+    public static MovieGenreMinProjection defaultMoviGenreMinDTO () {
+
+        return new MovieGenreMinImpl();
+
+    }
+
+
+
+
+
+    private static class MovieGenreimpl implements MovieGenreProjection {
+
+
+
+
+        @Override
+        public Long getId() {
+            return 1L;
+        }
+
+        @Override
+        public String getDescription() {
+            return "SOME TEXT";
+        }
+
+        @Override
+        public String getTitle() {
+            return "TITLE";
+        }
+
+        @Override
+        public String getDirector() {
+            return "DIRECTOR";
+        }
+
+        @Override
+        public Instant getRelease() {
+            return Instant.now();
+        }
+
+        @Override
+        public Double getPrice() {
+            return 1.50;
+        }
+
+        @Override
+        public Long getGenreId() {
+            return 1L;
+        }
+
+        @Override
+        public String getImgUrl() {
+            return "SOME IMAGE";
+        }
+
+        @Override
+        public String getGenreName() {
+            return "SOME GENRE";
+        }
+    }
+
+    private static class MovieGenreMinImpl implements MovieGenreMinProjection {
+
+
+        @Override
+        public Long getId() {
+            return 1L;
+        }
+
+        @Override
+        public String getDescription() {
+            return "DESCRIPTION TEST";
+        }
+
+        @Override
+        public String getTitle() {
+            return "TITLE TEST";
+        }
+
+        @Override
+        public String getDirector() {
+            return "DIRECTOR TEST";
+        }
+
+        @Override
+        public Instant getRelease() {
+            return Instant.ofEpochMilli(1736046000000L);
+        }
+
+        @Override
+        public Double getPrice() {
+            return 10.0;
+        }
+
+        @Override
+        public String getImgUrl() {
+            return "SOME IMAGE";
+        }
+
+        @Override
+        public String getGenres() {
+            return "SOMO GENRE";
+        }
+    }
 
 
 
