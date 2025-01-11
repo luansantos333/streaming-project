@@ -57,7 +57,10 @@ public class MovieFactory {
 
     public static MovieGenreDTO customMovieGenreDTO (Long id, String title, String director, Double price, String imgUrl, LocalDate release, List<Genre> genres) {
 
-        return new MovieGenreDTO(customMovie(id, title, director, price, imgUrl,  release, genres));
+        Movie movie = customMovie(id, title, director, price, imgUrl, release, genres);
+
+
+        return new MovieGenreDTO(movie);
 
 
     }

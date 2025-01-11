@@ -23,7 +23,10 @@ import org.portfolio.streaming.services.exceptions.ResourceNotFoundException;
 import org.portfolio.streaming.utils.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
@@ -43,6 +46,7 @@ public class MovieServiceTest {
     @Mock
     private ReviewRepository reviewRepository;
     private MovieGenreDTO movieGenreDTO;
+    private MovieGenreDTO updatedMovieGenreDTO;
     private Movie nullMovie;
     private Long validMovieId;
     private Long invalidMovieId;
@@ -64,29 +68,42 @@ public class MovieServiceTest {
         validMovieId = 1L;
         invalidMovieId = 2L;
         validMovieIds = List.of(validMovieId);
-        movieGenreProjections.add(MovieFactory.defaultMovieGenreProjection());
-        allMoviesGenres.add(MovieFactory.defaultMoviGenreMinDTO());
-        allMoviesGenres.add(MovieFactory.defaultMoviGenreMinDTO());
-        allMoviesGenres.add(MovieFactory.defaultMoviGenreMinDTO());
 
+        movieGenreProjections.add(MovieFactory.defaultMovieGenreProjection());
+
+        allMoviesGenres.add(MovieFactory.defaultMoviGenreMinDTO());
+        allMoviesGenres.add(MovieFactory.defaultMoviGenreMinDTO());
+        allMoviesGenres.add(MovieFactory.defaultMoviGenreMinDTO());
 
         movieGenreMinProjections.add(MovieFactory.defaultMoviGenreMinDTO());
+
         movie = MovieFactory.defaultMovie();
         movieGenreDTO = MovieFactory.defaultMovieGenreDTO();
+        updatedMovieGenreDTO = MovieFactory.customMovieGenreDTO(movieGenreDTO.getId(), movie.getTitle(), movie.getDirector(), movie.getPrice(),movie.getImgUrl(), movie.getRelease(),
+                movie.getGenres());
+
         nullMovie = null;
         genre = new Genre(1L, randomStringGenerator.generateRandomString(20L));
+
         pageable = PageRequest.of(0, movieGenreMinProjections.size());
+
         Mockito.when(movieRepository.save(ArgumentMatchers.any())).thenReturn(movie);
+
         Mockito.when(movieRepository.searchMovieAndCategoriesById(validMovieId)).thenReturn(movieGenreProjections);
         Mockito.when(movieRepository.searchMovieAndCategoriesById(invalidMovieId)).thenReturn(List.of());
+
         Mockito.when(movieRepository.searchMovieIdsByTitle(movieGenreDTO.getTitle(), movieGenreDTO.getGenres().stream().map(x -> x.getId()).collect(Collectors.toList()))).thenReturn(validMovieIds);
         Mockito.when(movieRepository.searchMovieIdsByTitle(nonExistentMovieTitle, List.of(invalidMovieId))).thenReturn(List.of());
+
         Mockito.when(movieRepository.searchAllMoviesAndGenres(pageable)).thenReturn(new PageImpl<>(allMoviesGenres, pageable, allMoviesGenres.size()));
         Mockito.when(movieRepository.searchAllMoviesAndGenresByMovieIds(movieGenreDTO.getGenres().
                 stream().
                 map(x -> x.getId()).
                 collect(Collectors.toList()), pageable)
         ).thenReturn(new PageImpl<>(movieGenreMinProjections, pageable, movieGenreMinProjections.size()));
+
+        Mockito.when(movieRepository.getReferenceById(validMovieId)).thenReturn(movie);
+        Mockito.doThrow(ResourceNotFoundException.class).when(movieRepository).getReferenceById(invalidMovieId);
 
 
     }
@@ -159,10 +176,38 @@ public class MovieServiceTest {
         Assertions.assertEquals(movieGenreMinDTOList.size(), 3);
         Assertions.assertEquals(movieGenreMinDTOList.get(0).getTitle(), allMoviesGenres.get(0).getTitle());
 
+    }
+
+    @Test
+    public void whenMovieIdIsValidThenUpdateMovie () {
+
+        MovieGenreDTO movieGenreDTO1 = movieService.updateMovie(updatedMovieGenreDTO, validMovieId);
+        Assertions.assertEquals(validMovieId, movieGenreDTO1.getId());
+        Assertions.assertEquals(movie.getTitle(), movieGenreDTO1.getTitle());
+        Assertions.assertEquals(movie.getDirector(), movieGenreDTO1.getDirector());
+        Assertions.assertEquals(movie.getDescription(), movieGenreDTO1.getDescription());
+        Assertions.assertEquals(movie.getImgUrl(), movieGenreDTO1.getImgUrl());
+        Assertions.assertEquals(movie.getPrice(), movieGenreDTO1.getPrice());
+        Assertions.assertEquals(movie.getRelease(), movieGenreDTO1.getRelease());
+        Assertions.assertEquals(movie.getGenres().size(), movieGenreDTO1.getGenres().size());
+
+    }
+
+    @Test
+    public void whenMovieIdIsInvalidThenThrowResourceNotFound () {
+
+
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+
+            movieService.updateMovie(movieGenreDTO, invalidMovieId);
+
+        });
 
 
 
     }
+
+
 
 
 
