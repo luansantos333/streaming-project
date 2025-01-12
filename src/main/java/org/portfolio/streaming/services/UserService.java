@@ -82,7 +82,7 @@ public class UserService implements UserDetailsService {
 
         if (!userRepo.existsById(id)) {
 
-            throw new IllegalArgumentException("No user found with this id");
+            throw new ResourceNotFoundException("No user found with this id");
         }
 
         User user = userRepo.findById(id).get();

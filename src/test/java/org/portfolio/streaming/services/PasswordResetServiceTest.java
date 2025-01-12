@@ -7,9 +7,5 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @Import(TestConfig.class)
-public class MailServiceTest {
-
-
-
-
+public class PasswordResetServiceTest {
 }

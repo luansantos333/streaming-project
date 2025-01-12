@@ -1,5 +1,7 @@
 package org.portfolio.streaming.factories;
 
+import org.portfolio.streaming.dtos.UserDTO;
+import org.portfolio.streaming.dtos.UserMinDTO;
 import org.portfolio.streaming.entities.User;
 import org.portfolio.streaming.utils.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,25 @@ public class UserFactory {
 
 
     }
+
+
+    public static UserDTO getDefaultUserDTO () {
+
+
+        User defaultUser = getDefaultUser();
+
+        return new UserDTO(defaultUser);
+
+    }
+
+    public static UserMinDTO getDefaultUserMinDTO () {
+
+        User defaultUser = getDefaultUser();
+
+        return new UserMinDTO(defaultUser);
+
+    }
+
 
 
 }
