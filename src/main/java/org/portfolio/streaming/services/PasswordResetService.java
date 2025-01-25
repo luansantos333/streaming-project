@@ -60,4 +60,8 @@ public class PasswordResetService {
         user.setPassword(encoderConfig.encoder().encode(password));
         userRepo.save(user);
     }
+
+    public Long getTokenDuration() {
+        return tokenDuration;
+    }
 }

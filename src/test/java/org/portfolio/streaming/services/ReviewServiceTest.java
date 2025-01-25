@@ -12,7 +12,6 @@ import org.portfolio.streaming.config.TestConfig;
 import org.portfolio.streaming.dtos.UserReviewMinDTO;
 import org.portfolio.streaming.entities.Review;
 import org.portfolio.streaming.factories.ReviewFactory;
-import org.portfolio.streaming.factories.UserFactory;
 import org.portfolio.streaming.repositories.MovieRepository;
 import org.portfolio.streaming.repositories.ReviewRepository;
 import org.portfolio.streaming.repositories.UserRepository;

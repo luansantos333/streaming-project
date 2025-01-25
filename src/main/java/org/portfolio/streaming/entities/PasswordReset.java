@@ -30,6 +30,16 @@ public class PasswordReset {
         this.user = user;
     }
 
+    public PasswordReset (String token, User user, LocalDateTime expiryDate) {
+
+
+        this.token = token;
+        this.user = user;
+        this.expiryDate = expiryDate;
+
+
+    }
+
     public void setToken(String token) {
         this.token = token;
     }

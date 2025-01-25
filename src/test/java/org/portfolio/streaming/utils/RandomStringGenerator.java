@@ -1,6 +1,5 @@
 package org.portfolio.streaming.utils;
 
-import net.bytebuddy.utility.RandomString;
 import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;

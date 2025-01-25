@@ -13,8 +13,6 @@ import org.portfolio.streaming.configs.customgrant.PasswordEncoderConfig;
 import org.portfolio.streaming.dtos.UserDTO;
 import org.portfolio.streaming.dtos.UserMinDTO;
 import org.portfolio.streaming.entities.User;
-import org.portfolio.streaming.factories.ReviewFactory;
-import org.portfolio.streaming.factories.RoleFactory;
 import org.portfolio.streaming.factories.UserFactory;
 import org.portfolio.streaming.repositories.UserRepository;
 import org.portfolio.streaming.services.exceptions.DataExistentException;
@@ -26,7 +24,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
