@@ -16,10 +16,11 @@ import org.portfolio.streaming.factories.UserFactory;
 import org.portfolio.streaming.repositories.PasswordResetTokenRepository;
 import org.portfolio.streaming.repositories.UserRepository;
 import org.portfolio.streaming.services.exceptions.ResourceNotFoundException;
+import org.portfolio.streaming.services.exceptions.TokenExpiredException;
 import org.portfolio.streaming.utils.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -38,7 +39,7 @@ public class PasswordResetServiceTest {
     private MailService mailService;
     @Mock
     private UserRepository userRepository;
-    @MockBean
+    @Mock
     private PasswordEncoderConfig passwordEncoderConfig;
     private String validMail;
     private String invalidMail;
@@ -47,6 +48,11 @@ public class PasswordResetServiceTest {
     @Autowired
     private RandomStringGenerator stringGenerator;
     private Long validId;
+    @Mock
+    private PasswordEncoder encoder;
+    private User user;
+    private PasswordReset validPasswordReset;
+    private PasswordReset expiredTokenReset;
     @BeforeEach
     public void setUp () {
 
@@ -55,16 +61,22 @@ public class PasswordResetServiceTest {
         validToken = stringGenerator.generateRandomString(30L);
         invalidToken = validToken + "1234440krd";
         validId = 1L;
+        user = UserFactory.getDefaultUser();
+        validPasswordReset = new PasswordReset(validToken, user, LocalDateTime.now().plusMinutes(2L));
+        expiredTokenReset = new PasswordReset(validToken, user, LocalDateTime.now().minusMinutes(10L));
 
-        Mockito.when(userRepository.findByEmail(validMail)).thenReturn(Optional.of(UserFactory.getDefaultUser()));
+
+        Mockito.when(userRepository.findByEmail(validMail)).thenReturn(Optional.of(user));
         Mockito.doThrow(ResourceNotFoundException.class).when(userRepository).findByEmail(invalidMail);
-        Mockito.when(userRepository.getReferenceById(validId)).thenReturn(UserFactory.getDefaultUser());
-        Mockito.when(userRepository.save(ArgumentMatchers.any(User.class))).thenReturn(UserFactory.getDefaultUser());
-        Mockito.when(passwordResetTokenRepository.save(ArgumentMatchers.any(PasswordReset.class))).thenReturn(new PasswordReset());
+        Mockito.when(userRepository.getReferenceById(validId)).thenReturn(user);
+        Mockito.when(userRepository.save(ArgumentMatchers.any(User.class))).thenReturn(user);
+        Mockito.when(passwordResetTokenRepository.save(ArgumentMatchers.any(PasswordReset.class))).thenReturn(validPasswordReset);
         Mockito.doNothing().when(mailService).sendPasswordResetToken(validMail, validToken);
-        Mockito.when(passwordResetTokenRepository.searchUserByResetToken(validToken)).thenReturn(Optional.of(UserFactory.getDefaultUser()));
-        Mockito.when(passwordResetTokenRepository.findByToken(validToken)).thenReturn(new PasswordReset(validToken, UserFactory.getDefaultUser(), LocalDateTime.now().plusMinutes(2L)));
-        Mockito.when(passwordEncoderConfig.encoder().encode((CharSequence) UserFactory.getDefaultUser().getPassword())).thenReturn("encoded-password");
+        Mockito.when(passwordResetTokenRepository.searchUserByResetToken(validToken)).thenReturn(Optional.of(user));
+        Mockito.when(passwordResetTokenRepository.findByToken(validToken)).thenReturn(validPasswordReset);
+        Mockito.when(encoder.encode(ArgumentMatchers.anyString())).thenReturn("encoded-password");
+        Mockito.when(passwordEncoderConfig.encoder()).thenReturn(encoder);
+        ReflectionTestUtils.setField(passwordResetService, "tokenDuration", 3600L);
 
     }
 
@@ -72,7 +84,6 @@ public class PasswordResetServiceTest {
     @Test
     public void whenEMailIsValidInitiatePasswordResetWithSuccess () {
 
-        ReflectionTestUtils.setField(passwordResetService, "tokenDuration", 3600L);
         Assertions.assertDoesNotThrow(() -> {
 
             passwordResetService.initiatePasswordReset(validMail);
@@ -96,12 +107,44 @@ public class PasswordResetServiceTest {
     @Test
     public void whenTokenIsValidThenDoNothing () {
 
-        ReflectionTestUtils.setField(passwordResetService, "tokenDuration", 3600L);
+
         Assertions.assertDoesNotThrow(() -> {
 
-            passwordResetService.resetPassword(validToken, UserFactory.getDefaultUser().getPassword());
+            passwordResetService.resetPassword(validToken, user.getPassword());
+
 
         });
+
+        Mockito.verify(passwordEncoderConfig, Mockito.times(1)).encoder();
+        Mockito.verify(encoder, Mockito.times(1)).encode(ArgumentMatchers.anyString());
+
+
+    }
+
+    @Test
+    public void whenTokenIsInvalidThenThrowResourceNotFoundException () {
+
+
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+
+        passwordResetService.resetPassword(invalidToken, user.getPassword());
+
+        });
+
+
+    }
+
+    @Test
+    public void whenTokenIsExpiredThenThrowTokenExpiredException () {
+
+        Mockito.when(passwordResetTokenRepository.findByToken(validToken)).thenReturn(expiredTokenReset);
+
+        Assertions.assertThrows(TokenExpiredException.class, () -> {
+
+            passwordResetService.resetPassword(validToken, user.getPassword());
+
+        });
+
 
 
     }

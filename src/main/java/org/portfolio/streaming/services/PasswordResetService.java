@@ -23,13 +23,13 @@ public class PasswordResetService {
     private final UserRepository userRepo;
     @Value("${spring.mail.token.expiration}")
     private Long tokenDuration;
-    @Autowired
-    PasswordEncoderConfig encoderConfig;
+    private final PasswordEncoderConfig encoderConfig;
 
-    public PasswordResetService(PasswordResetTokenRepository passwordResetTokenRepository, MailService mailService, UserRepository userRepo) {
+    public PasswordResetService(PasswordResetTokenRepository passwordResetTokenRepository, MailService mailService, UserRepository userRepo, PasswordEncoderConfig encoderConfig) {
         this.passwordResetTokenRepository = passwordResetTokenRepository;
         this.mailService = mailService;
         this.userRepo = userRepo;
+        this.encoderConfig = encoderConfig;
     }
 
     @Transactional
