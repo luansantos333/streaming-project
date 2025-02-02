@@ -35,17 +35,18 @@ Funcionalidades Principais
 
 > `git clone https://github.com/luansantos333/streaming-project.git`
 
-Baixe a collection para validar os endpoints [aqui](endpoints/movieflix.json)
+Baixe a collection para validar os endpoints [aqui](endpoints/streaming.json)
 
 ---
 ### Tecnologias utilizadas
 
 > - Java 21
 > - Spring Boot
-> - Spring Security para autenticação
+> - OAuth2 para autenticação
 > - JPA/Hibernate para persistência de dados
 > - RESTful API
 > - PostgresSQL
+> - Docker
 ---
 ### Rodando a aplicação com docker
 Para rodar a aplicação usando Docker, siga os passos abaixo:
@@ -101,7 +102,4 @@ Aqui está um exemplo de como você pode executar a aplicação com valores fict
 -e SPRING_MAIL_PASSWORD=myemailpassword \
 streaming
 
-Conclusão
-
 Agora sua aplicação streaming deve estar rodando dentro de um contêiner Docker. Você pode acessar a aplicação conforme configurado.
-`
