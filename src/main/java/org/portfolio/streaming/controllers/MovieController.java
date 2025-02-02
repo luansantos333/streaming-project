@@ -69,9 +69,11 @@ public class MovieController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping ("{id}")
-    public void deleteMovieById (@PathVariable (name = "id") Long id) {
+    public ResponseEntity<Void> deleteMovieById (@PathVariable (name = "id") Long id) {
 
         movieService.deleteMovieById(id);
+
+        return ResponseEntity.noContent().build();
 
     }
 

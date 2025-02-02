@@ -75,10 +75,8 @@ public class AuthorizationServerConfig {
 
         http.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults()));
         // @formatter:on
-
         return http.build();
     }
-
     @Bean
     public OAuth2AuthorizationService authorizationService() {
         return new InMemoryOAuth2AuthorizationService();
