@@ -21,7 +21,7 @@ FROM openjdk:21
 RUN mkdir -p /usr/src/myapp
 
 # Copie o JAR da aplicação para o diretório
-COPY ./target/streaming-0.0.1-SNAPSHOT.jar /usr/src/myapp
+COPY streaming-0.0.1-SNAPSHOT.jar /usr/src/myapp
 
 # Defina o diretório de trabalho
 WORKDIR /usr/src/myapp
