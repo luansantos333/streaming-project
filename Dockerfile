@@ -26,6 +26,9 @@ COPY streaming-0.0.1-SNAPSHOT.jar /usr/src/myapp
 # Defina o diretório de trabalho
 WORKDIR /usr/src/myapp
 
+# LINK TO REPO
+LABEL org.opencontainers.image.source https://github.com/luansantos333/streaming-project
+
 # Crie um usuário não root
 RUN useradd -ms /bin/bash java
 
